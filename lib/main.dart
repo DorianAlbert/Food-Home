@@ -4,6 +4,7 @@ import 'package:food_home_app/app/app.dialogs.dart';
 import 'package:food_home_app/app/app.locator.dart';
 import 'package:food_home_app/app/app.router.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

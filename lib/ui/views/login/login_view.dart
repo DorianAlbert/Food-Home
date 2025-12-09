@@ -1,23 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:stacked/stacked.dart';
 
-class LoginView extends StatelessWidget {
+import '../../widgets/common/login_form_fields/login_form_fields.dart';
+import 'login_viewmodel.dart';
+
+class LoginView extends StackedView<LoginViewModel> {
   const LoginView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget builder(
+      BuildContext context, LoginViewModel viewModel, Widget? child) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
     return Scaffold(
       backgroundColor: Colors.white,
-
+      appBar: AppBar(
+        title: const Text('02 – Connexion'),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black87,
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children:[
+              children: [
                 // Titre "Connexion"
                 Text(
                   'Connexion',
@@ -29,16 +40,17 @@ class LoginView extends StatelessWidget {
                 const SizedBox(height: 48),
 
                 // Champs email / mot de passe
-                const _LoginFormFields(),
+                LoginFormFields(
+                  emailController: viewModel.emailController,
+                  passwordController: viewModel.passwordController,
+                ),
                 const SizedBox(height: 24),
 
                 // Bouton "Se connecter"
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      // TODO: implémenter la logique de connexion
-                    },
+                    onPressed: viewModel.isBusy ? null : viewModel.login,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.cyan.shade500,
                       elevation: 1,
@@ -50,12 +62,23 @@ class LoginView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: const Text(
-                      'Se connecter',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    child: viewModel.isBusy
+                        ? const SizedBox(
+                            height: 18,
+                            width: 18,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            ),
+                          )
+                        : const Text(
+                            'Se connecter',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -64,9 +87,7 @@ class LoginView extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: TextButton(
-                    onPressed: () {
-                      // TODO: navigation vers la création de compte
-                    },
+                    onPressed: viewModel.navigateToRegister,
                     child: Text(
                       'Créer un compte',
                       style: TextStyle(
@@ -89,19 +110,21 @@ class LoginView extends StatelessWidget {
                   children: [
                     _SocialLoginButton(
                       label: 'Google',
-                      onPressed: () {
-                        // TODO: implémenter login Google
-                      },
-                      // Remplace avec un vrai logo via flutter_svg si besoin
+                      onPressed: viewModel.signInWithGoogle,
                       icon: const Icon(Icons.g_mobiledata, size: 24),
                     ),
                     const SizedBox(height: 12),
                     _SocialLoginButton(
                       label: 'Apple',
-                      onPressed: () {
-                        // TODO: implémenter login Apple
-                      },
+                      onPressed:
+                          viewModel.isBusy ? null : viewModel.signInWithApple,
                       icon: const Icon(Icons.apple, size: 20),
+                    ),
+                    const SizedBox(height: 12),
+                    _SocialLoginButton(
+                      label: 'Facebook',
+                      onPressed: viewModel.signInWithFacebook,
+                      icon: const Icon(Icons.facebook, size: 20),
                     ),
                   ],
                 ),
@@ -112,56 +135,12 @@ class LoginView extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Champs de formulaire: email + mot de passe
-class _LoginFormFields extends StatelessWidget {
-  const _LoginFormFields();
-
-  OutlineInputBorder _buildBorder(Color color) {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
-      borderSide: BorderSide(
-        color: color,
-        width: 1.2,
-      ),
-    );
-  }
 
   @override
-  Widget build(BuildContext context) {
-    final borderColor = Colors.grey.shade300;
-    final focusColor = Colors.cyan.shade500;
-
-    return Column(
-      children: [
-        TextFormField(
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            hintText: 'Email',
-            contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            border: _buildBorder(borderColor),
-            enabledBorder: _buildBorder(borderColor),
-            focusedBorder: _buildBorder(focusColor),
-          ),
-        ),
-        const SizedBox(height: 16),
-        TextFormField(
-          obscureText: true,
-          decoration: InputDecoration(
-            hintText: 'Mot de passe',
-            contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            border: _buildBorder(borderColor),
-            enabledBorder: _buildBorder(borderColor),
-            focusedBorder: _buildBorder(focusColor),
-          ),
-        ),
-      ],
-    );
-  }
+  LoginViewModel viewModelBuilder(BuildContext context) => LoginViewModel();
 }
+
+/// Séparateur horizontal avec le texte "Ou continuer avec"
 class _OrDivider extends StatelessWidget {
   const _OrDivider();
 
@@ -194,9 +173,10 @@ class _OrDivider extends StatelessWidget {
   }
 }
 
+/// Bouton générique pour la connexion sociale (Google / Apple)
 class _SocialLoginButton extends StatelessWidget {
   final String label;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Widget icon;
 
   const _SocialLoginButton({

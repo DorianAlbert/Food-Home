@@ -9,30 +9,34 @@ class RegisterFormView extends StackedView<RegisterFormViewModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      RegisterFormViewModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    RegisterFormViewModel viewModel,
+    Widget? child,
+  ) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Créer un Compte'), // Titre adapté pour l'enregistrement
+        title:
+            const Text('Créer un Compte'), // Titre adapté pour l'enregistrement
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: viewModel.isBusy // Afficher un indicateur de chargement si le ViewModel est occupé
+      body: viewModel
+              .isBusy // Afficher un indicateur de chargement si le ViewModel est occupé
           ? const Center(child: CircularProgressIndicator())
           : Container(
-        padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-        child: UserFormWidget(
-          initialUser: null, // Pas d'utilisateur initial pour un formulaire d'enregistrement
-          onSave: viewModel.handleRegisterUser, // Le callback pour la sauvegarde
-        ),
-      ),
+              padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+              child: UserFormWidget(
+                initialUser:
+                    null, // Pas d'utilisateur initial pour un formulaire d'enregistrement
+                onSave: viewModel
+                    .handleRegisterUser, // Le callback pour la sauvegarde
+              ),
+            ),
     );
   }
 
   @override
   RegisterFormViewModel viewModelBuilder(
-      BuildContext context,
-      ) =>
+    BuildContext context,
+  ) =>
       RegisterFormViewModel();
 }

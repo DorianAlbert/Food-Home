@@ -17,6 +17,10 @@ class UserService with ListenableServiceMixin {
     required DateTime dateDeNaissance,
     required String adresse,
   }) async {
+    if (id.isEmpty) {
+      throw ArgumentError('User ID invalide');
+    }
+
     final user = User(
       id: id,
       nom: nom,
@@ -25,7 +29,7 @@ class UserService with ListenableServiceMixin {
       adresse: adresse,
     );
 
-    await _firestore.collection('users').doc(user.id).set(user.toFirestore());
+    await _firestore.collection('users').doc(id).set(user.toFirestore());
   }
 
   Future<User?> getUser(String id) async {

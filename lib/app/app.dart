@@ -14,6 +14,10 @@ import 'package:food_home_app/ui/views/profil/profil_view.dart';
 import '../services/navbar_service.dart';
 import 'package:food_home_app/ui/views/acceuil/acceuil_view.dart';
 import 'package:food_home_app/ui/views/register_form/register_form_view.dart';
+import 'package:food_home_app/ui/views/quiz_register/quiz_register_view.dart';
+
+import '../services/quiz_service.dart';
+import 'package:food_home_app/ui/views/profile_details/profile_details_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -21,11 +25,12 @@ import 'package:food_home_app/ui/views/register_form/register_form_view.dart';
     MaterialRoute(page: HomeView),
     MaterialRoute(page: StartupView),
     MaterialRoute(page: LoginView),
-    MaterialRoute(page: LoginView),
     MaterialRoute(page: RegisterView),
     MaterialRoute(page: ProfilView),
     MaterialRoute(page: AcceuilView),
     MaterialRoute(page: RegisterFormView),
+    MaterialRoute(page: QuizRegisterView),
+    MaterialRoute(page: ProfileDetailsView),
 // @stacked-route
   ],
   dependencies: [
@@ -36,6 +41,7 @@ import 'package:food_home_app/ui/views/register_form/register_form_view.dart';
     LazySingleton(classType: BottomSheetService),
     LazySingleton(classType: NavbarService),
     LazySingleton(classType: UserService),
+    LazySingleton(classType: QuizService),
 
     // @stacked-service
   ],

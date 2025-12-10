@@ -58,8 +58,7 @@ class RegisterViewModel extends BaseViewModel {
           email: email,
           password: password,
         );
-      }
-      catch (e) {
+      } catch (e) {
         print(e);
       }
       _navigationService.replaceWithRegisterFormView();

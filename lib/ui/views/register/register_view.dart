@@ -38,7 +38,7 @@ class RegisterView extends StackedView<RegisterViewModel> {
               AuthPrimaryButton(
                 label: 'S’inscrire',
                 isLoading: viewModel.isBusy,
-                onPressed: viewModel.register, // 👈 logique spécifique register
+                onPressed: viewModel.register,
               ),
             ],
           ),

@@ -14,6 +14,7 @@ import 'package:stacked_shared/stacked_shared.dart';
 
 import '../services/auth_service.dart';
 import '../services/navbar_service.dart';
+import '../services/quiz_service.dart';
 import '../services/user_service.dart';
 
 final locator = StackedLocator.instance;
@@ -34,4 +35,5 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => BottomSheetService());
   locator.registerLazySingleton(() => NavbarService());
   locator.registerLazySingleton(() => UserService());
+  locator.registerLazySingleton(() => QuizService());
 }

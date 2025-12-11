@@ -6,7 +6,6 @@ import 'app_theme_extras.dart';
 
 ThemeData buildLightTheme() {
   const fontFamily = 'SF Pro Text'; // adapte si tu as une font différente
-
   const textTheme = TextTheme(
     // h1
     headlineLarge: TextStyle(
@@ -65,6 +64,14 @@ ThemeData buildLightTheme() {
   );
 
   return ThemeData(
+    listTileTheme: ListTileThemeData(
+      titleTextStyle: textTheme.bodyMedium?.copyWith(
+        color: Colors.grey
+      ),
+        subtitleTextStyle: textTheme.bodyMedium?.copyWith(
+            color: Colors.grey
+        )
+    ),
     useMaterial3: true,
     fontFamily: fontFamily,
     colorScheme: colorScheme,

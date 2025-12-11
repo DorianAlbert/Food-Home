@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../widgets/common/auth_primary_button/auth_primary_button.dart';
 import '../../widgets/common/login_form_fields/login_form_fields.dart';
 import '../../widgets/common/or_divider/or_divider.dart';
 import '../../widgets/common/social_login_button/social_login_button.dart';
@@ -45,27 +46,11 @@ class LoginView extends StackedView<LoginViewModel> {
                 ),
                 const SizedBox(height: 24),
 
-                // Bouton "Se connecter"
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: viewModel.isBusy ? null : viewModel.login,
-                    child: viewModel.isBusy
-                        ? const SizedBox(
-                            height: 18,
-                            width: 18,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.white,
-                              ),
-                            ),
-                          )
-                        : const Text('Se connecter'),
-                  ),
+                AuthPrimaryButton(
+                  label: 'Se connecter',
+                  isLoading: viewModel.isBusy,
+                  onPressed: viewModel.login,
                 ),
-                const SizedBox(height: 12),
-
                 // Bouton "Créer un compte"
                 SizedBox(
                   width: double.infinity,

@@ -22,10 +22,10 @@ class HomeActionCard extends StackedView<HomeActionCardModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      HomeActionCardModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    HomeActionCardModel viewModel,
+    Widget? child,
+  ) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;

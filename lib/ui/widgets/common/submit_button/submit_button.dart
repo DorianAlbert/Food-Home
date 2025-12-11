@@ -16,10 +16,10 @@ class SubmitButton extends StackedView<SubmitButtonModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      SubmitButtonModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    SubmitButtonModel viewModel,
+    Widget? child,
+  ) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
@@ -44,22 +44,22 @@ class SubmitButton extends StackedView<SubmitButtonModel> {
         ),
         child: isBusy
             ? SizedBox(
-          height: 20,
-          width: 20,
-          child: CircularProgressIndicator(
-            strokeWidth: 2,
-            valueColor: AlwaysStoppedAnimation<Color>(
-              colorScheme.onPrimary,
-            ),
-          ),
-        )
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    colorScheme.onPrimary,
+                  ),
+                ),
+              )
             : Text(
-          'Valider mon profil',
-          style: textTheme.labelLarge?.copyWith(
-            color: colorScheme.onPrimary,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+                'Valider mon profil',
+                style: textTheme.labelLarge?.copyWith(
+                  color: colorScheme.onPrimary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
       ),
     );
   }

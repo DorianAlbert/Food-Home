@@ -17,10 +17,10 @@ class MealsSliderSection extends StackedView<MealsSliderSectionModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      MealsSliderSectionModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    MealsSliderSectionModel viewModel,
+    Widget? child,
+  ) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     final colorScheme = theme.colorScheme;
@@ -74,7 +74,7 @@ class MealsSliderSection extends StackedView<MealsSliderSectionModel> {
 
   @override
   MealsSliderSectionModel viewModelBuilder(
-      BuildContext context,
-      ) =>
+    BuildContext context,
+  ) =>
       MealsSliderSectionModel();
 }

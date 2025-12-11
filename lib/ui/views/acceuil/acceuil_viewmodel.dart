@@ -13,10 +13,6 @@ class AcceuilViewModel extends BaseViewModel {
     // _navigationService.navigateToMenuPlanningView();
   }
 
-  void onShoppingListTap() {
-    // _navigationService.navigateToShoppingListView();
-  }
-
   void onStockTap() {
     // _navigationService.navigateToStockView();
   }
@@ -25,5 +21,9 @@ class AcceuilViewModel extends BaseViewModel {
 
   void setProfil() {
     _navbarService.setTab(1);
+  }
+
+  void setShoppingList() {
+    _navbarService.setTab(2);
   }
 }

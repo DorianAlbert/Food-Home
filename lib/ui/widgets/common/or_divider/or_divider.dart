@@ -9,10 +9,10 @@ class OrDivider extends StackedView<OrDividerModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      OrDividerModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    OrDividerModel viewModel,
+    Widget? child,
+  ) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
@@ -44,7 +44,7 @@ class OrDivider extends StackedView<OrDividerModel> {
 
   @override
   OrDividerModel viewModelBuilder(
-      BuildContext context,
-      ) =>
+    BuildContext context,
+  ) =>
       OrDividerModel();
 }

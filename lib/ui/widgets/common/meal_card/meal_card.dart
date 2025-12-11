@@ -26,10 +26,10 @@ class MealCard extends StackedView<MealCardModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      MealCardModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    MealCardModel viewModel,
+    Widget? child,
+  ) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     final colorScheme = theme.colorScheme;

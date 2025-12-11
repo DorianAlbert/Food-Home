@@ -16,10 +16,10 @@ class DietSelector extends StackedView<DietSelectorModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      DietSelectorModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    DietSelectorModel viewModel,
+    Widget? child,
+  ) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     final colorScheme = theme.colorScheme;
@@ -94,7 +94,7 @@ class DietSelector extends StackedView<DietSelectorModel> {
 
   @override
   DietSelectorModel viewModelBuilder(
-      BuildContext context,
-      ) =>
+    BuildContext context,
+  ) =>
       DietSelectorModel();
 }

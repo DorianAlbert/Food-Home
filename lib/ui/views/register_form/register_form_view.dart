@@ -9,10 +9,10 @@ class RegisterFormView extends StackedView<RegisterFormViewModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      RegisterFormViewModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    RegisterFormViewModel viewModel,
+    Widget? child,
+  ) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
@@ -38,12 +38,12 @@ class RegisterFormView extends StackedView<RegisterFormViewModel> {
       body: viewModel.isBusy
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-        child: UserFormWidget(
-          initialUser: null,
-          onSave: viewModel.handleRegisterUser,
-        ),
-      ),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+              child: UserFormWidget(
+                initialUser: null,
+                onSave: viewModel.handleRegisterUser,
+              ),
+            ),
     );
   }
 

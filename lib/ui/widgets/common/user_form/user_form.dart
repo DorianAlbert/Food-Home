@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../models/user_model.dart'; // Pour formater la date
+import '../../../../models/user_model.dart';
+import '../../../common/app_theme_extras.dart';
 
 class UserFormWidget extends StatefulWidget {
-  final User? initialUser; // Utilisateur existant à modifier (optionnel)
-  final Function(User user) onSave; // Callback pour sauvegarder l'utilisateur
+  final User? initialUser;
+  final Function(User user) onSave;
 
   const UserFormWidget({
     Key? key,
@@ -18,25 +19,37 @@ class UserFormWidget extends StatefulWidget {
 }
 
 class _UserFormWidgetState extends State<UserFormWidget> {
-  final _formKey = GlobalKey<FormState>(); // Clé pour valider le formulaire
-  final TextEditingController _nomController = TextEditingController();
-  final TextEditingController _prenomController = TextEditingController();
-  final TextEditingController _adresseController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  late final TextEditingController _nomController;
+  late final TextEditingController _prenomController;
+  late final TextEditingController _adresseController;
+  late final TextEditingController _dateController;
 
   DateTime? _selectedDate;
 
-  bool get _isEditing =>
-      widget.initialUser != null; // Vérifie si on est en mode édition
+  bool get _isEditing => widget.initialUser != null;
 
   @override
   void initState() {
     super.initState();
-    if (widget.initialUser != null) {
-      _nomController.text = widget.initialUser!.nom;
-      _prenomController.text = widget.initialUser!.prenom;
-      _adresseController.text = widget.initialUser!.adresse;
-      _selectedDate = widget.initialUser!.dateDeNaissance;
-    }
+
+    _nomController = TextEditingController(
+      text: widget.initialUser?.nom ?? '',
+    );
+    _prenomController = TextEditingController(
+      text: widget.initialUser?.prenom ?? '',
+    );
+    _adresseController = TextEditingController(
+      text: widget.initialUser?.adresse ?? '',
+    );
+
+    _selectedDate = widget.initialUser?.dateDeNaissance;
+    _dateController = TextEditingController(
+      text: _selectedDate == null
+          ? ''
+          : DateFormat('dd/MM/yyyy').format(_selectedDate!),
+    );
   }
 
   @override
@@ -44,100 +57,149 @@ class _UserFormWidgetState extends State<UserFormWidget> {
     _nomController.dispose();
     _prenomController.dispose();
     _adresseController.dispose();
+    _dateController.dispose();
     super.dispose();
   }
 
   Future<void> _selectDate(BuildContext context) async {
+    final now = DateTime.now();
+    final initial = _selectedDate ?? DateTime(now.year - 25);
+
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: _selectedDate ?? DateTime.now(),
+      initialDate: initial,
       firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
+      lastDate: now,
     );
+
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
+        _dateController.text = DateFormat('dd/MM/yyyy').format(picked);
       });
     }
   }
 
   void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      if (_selectedDate == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Veuillez sélectionner une date de naissance')),
-        );
-        return;
-      }
+    if (!_formKey.currentState!.validate()) return;
 
-      String userId = _isEditing
-          ? widget.initialUser!.id
-          : DateTime.now()
-              .millisecondsSinceEpoch
-              .toString(); // ID simple pour démo, utilisez Uuid().v4() ou l'UID de Firebase Auth en prod
-
-      final newUser = User(
-        id: userId,
-        nom: _nomController.text.trim(),
-        prenom: _prenomController.text.trim(),
-        dateDeNaissance: _selectedDate!,
-        adresse: _adresseController.text.trim(),
+    if (_selectedDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Veuillez sélectionner une date de naissance'),
+        ),
       );
-
-      widget.onSave(newUser);
+      return;
     }
+
+    final userId = _isEditing
+        ? widget.initialUser!.id
+        : DateTime.now().millisecondsSinceEpoch.toString();
+
+    final newUser = User(
+      id: userId,
+      nom: _nomController.text.trim(),
+      prenom: _prenomController.text.trim(),
+      dateDeNaissance: _selectedDate!,
+      adresse: _adresseController.text.trim(),
+    );
+
+    widget.onSave(newUser);
+  }
+
+  InputDecoration _inputDecoration(
+    BuildContext context, {
+    required String label,
+    String? hint,
+    Widget? suffixIcon,
+  }) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final extras = theme.extension<AppThemeExtras>();
+    final textTheme = theme.textTheme;
+
+    final radius = extras?.radiusMd ?? 10.0;
+    final fillColor = extras?.inputBackground ?? colorScheme.surface;
+    final borderColor = colorScheme.outline.withOpacity(0.3);
+    final focusColor = colorScheme.primary;
+
+    OutlineInputBorder buildBorder(Color color) {
+      return OutlineInputBorder(
+        borderRadius: BorderRadius.circular(radius),
+        borderSide: BorderSide(
+          color: color,
+          width: 1.2,
+        ),
+      );
+    }
+
+    return InputDecoration(
+      labelText: label,
+      hintText: hint,
+      labelStyle: textTheme.bodyMedium?.copyWith(
+        color: theme.hintColor,
+      ),
+      filled: true,
+      fillColor: fillColor,
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 14,
+      ),
+      border: buildBorder(borderColor),
+      enabledBorder: buildBorder(borderColor),
+      focusedBorder: buildBorder(focusColor),
+      suffixIcon: suffixIcon,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final colorScheme = theme.colorScheme;
+
     return Form(
       key: _formKey,
-      child: ListView(
-        padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          // Nom
           TextFormField(
             controller: _nomController,
-            decoration: const InputDecoration(
-              labelText: 'Nom',
-              border: OutlineInputBorder(),
-            ),
+            decoration: _inputDecoration(context, label: 'Nom'),
             validator: (value) {
-              if (value == null || value.isEmpty) {
+              if (value == null || value.trim().isEmpty) {
                 return 'Veuillez entrer un nom';
               }
               return null;
             },
           ),
           const SizedBox(height: 16.0),
+
+          // Prénom
           TextFormField(
             controller: _prenomController,
-            decoration: const InputDecoration(
-              labelText: 'Prénom',
-              border: OutlineInputBorder(),
-            ),
+            decoration: _inputDecoration(context, label: 'Prénom'),
             validator: (value) {
-              if (value == null || value.isEmpty) {
+              if (value == null || value.trim().isEmpty) {
                 return 'Veuillez entrer un prénom';
               }
               return null;
             },
           ),
           const SizedBox(height: 16.0),
+
+          // Date de naissance
           GestureDetector(
             onTap: () => _selectDate(context),
             child: AbsorbPointer(
               child: TextFormField(
-                controller: TextEditingController(
-                  text: _selectedDate == null
-                      ? ''
-                      : DateFormat('dd/MM/yyyy').format(_selectedDate!),
-                ),
-                decoration: const InputDecoration(
-                  labelText: 'Date de Naissance',
-                  hintText: 'Sélectionnez une date',
-                  border: OutlineInputBorder(),
-                  suffixIcon: Icon(Icons.calendar_today),
+                controller: _dateController,
+                decoration: _inputDecoration(
+                  context,
+                  label: 'Date de naissance',
+                  hint: 'Sélectionnez une date',
+                  suffixIcon: const Icon(Icons.calendar_today, size: 20),
                 ),
                 validator: (value) {
                   if (_selectedDate == null) {
@@ -149,28 +211,41 @@ class _UserFormWidgetState extends State<UserFormWidget> {
             ),
           ),
           const SizedBox(height: 16.0),
+
+          // Adresse
           TextFormField(
             controller: _adresseController,
-            decoration: const InputDecoration(
-              labelText: 'Adresse',
-              border: OutlineInputBorder(),
-            ),
+            decoration: _inputDecoration(context, label: 'Adresse'),
             validator: (value) {
-              if (value == null || value.isEmpty) {
+              if (value == null || value.trim().isEmpty) {
                 return 'Veuillez entrer une adresse';
               }
               return null;
             },
           ),
           const SizedBox(height: 24.0),
-          ElevatedButton(
-            onPressed: _submitForm,
-            child: Text(_isEditing
-                ? 'Modifier l\'utilisateur'
-                : 'Créer l\'utilisateur'),
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 12.0),
-              textStyle: const TextStyle(fontSize: 18),
+
+          // Bouton de validation
+          SizedBox(
+            height: 48,
+            child: ElevatedButton(
+              onPressed: _submitForm,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: colorScheme.primary,
+                foregroundColor: colorScheme.onPrimary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    (Theme.of(context).extension<AppThemeExtras>()?.radiusLg) ??
+                        12.0,
+                  ),
+                ),
+                textStyle: textTheme.labelLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              child: Text(
+                _isEditing ? 'Modifier l’utilisateur' : 'Créer l’utilisateur',
+              ),
             ),
           ),
         ],

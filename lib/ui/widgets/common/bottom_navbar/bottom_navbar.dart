@@ -20,10 +20,10 @@ class BottomNavbar extends StackedView<BottomNavbarModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      BottomNavbarModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    BottomNavbarModel viewModel,
+    Widget? child,
+  ) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 

@@ -25,7 +25,6 @@ class AuthPrimaryButton extends StatelessWidget {
 
     return SizedBox(
       width: double.infinity,
-      height: 52,
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
@@ -40,17 +39,17 @@ class AuthPrimaryButton extends StatelessWidget {
         ),
         child: isLoading
             ? SizedBox(
-          width: 20,
-          height: 20,
-          child: CircularProgressIndicator(
-            strokeWidth: 2,
-            valueColor:
-            AlwaysStoppedAnimation<Color>(colorScheme.onPrimary),
-          ),
-        )
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor:
+                      AlwaysStoppedAnimation<Color>(colorScheme.onPrimary),
+                ),
+              )
             : Text(
-          label,
-        ),
+                label,
+              ),
       ),
     );
   }

@@ -9,7 +9,7 @@ class AppColors {
   // Fond principal
   static const background = Color(0xFFFFFFFF); // --background
   static const foreground =
-  Color(0xFF111111); // texte très sombre, proche de oklch(0.145 ...)
+      Color(0xFF111111); // texte très sombre, proche de oklch(0.145 ...)
 
   static const card = Color(0xFFFFFFFF); // --card
   static const cardForeground = foreground;
@@ -53,7 +53,8 @@ class AppColors {
   // Sidebar light
   static const sidebar = Color(0xFFFBFBFD); // très clair
   static const sidebarForeground = foreground;
-  static const sidebarPrimary = primary; // on garde le bleu comme primary sidebar
+  static const sidebarPrimary =
+      primary; // on garde le bleu comme primary sidebar
   static const sidebarPrimaryForeground = sidebar;
   static const sidebarAccent = Color(0xFFF7F7FB);
   static const sidebarAccentForeground = Color(0xFF333333);

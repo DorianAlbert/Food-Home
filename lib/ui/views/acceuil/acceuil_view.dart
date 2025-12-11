@@ -107,7 +107,7 @@ class AcceuilView extends StackedView<AcceuilViewModel> {
                       iconBackground: AppColors.pastelYellow,
                       iconColor: AppColors.accentYellow,
                       label: 'Liste de\ncourses',
-                      onTap: viewModel.onShoppingListTap,
+                      onTap: viewModel.setShoppingList,
                     ),
                   ),
                 ],

@@ -15,10 +15,10 @@ class AllergensSection extends StackedView<AllergensSectionModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      AllergensSectionModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    AllergensSectionModel viewModel,
+    Widget? child,
+  ) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     final colorScheme = theme.colorScheme;
@@ -50,7 +50,7 @@ class AllergensSection extends StackedView<AllergensSectionModel> {
         ),
         const SizedBox(height: 12),
         ...allergens.entries.map(
-              (entry) => Padding(
+          (entry) => Padding(
             padding: const EdgeInsets.only(bottom: 4.0),
             child: Theme(
               // On réutilise le thème global, mais on specialise le Checkbox
@@ -99,7 +99,7 @@ class AllergensSection extends StackedView<AllergensSectionModel> {
 
   @override
   AllergensSectionModel viewModelBuilder(
-      BuildContext context,
-      ) =>
+    BuildContext context,
+  ) =>
       AllergensSectionModel();
 }

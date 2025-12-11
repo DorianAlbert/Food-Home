@@ -12,10 +12,10 @@ class QuizRegisterView extends StackedView<QuizRegisterViewModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      QuizRegisterViewModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    QuizRegisterViewModel viewModel,
+    Widget? child,
+  ) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     final colorScheme = theme.colorScheme;
@@ -26,115 +26,115 @@ class QuizRegisterView extends StackedView<QuizRegisterViewModel> {
         child: viewModel.isBusy && !viewModel.isEditing
             ? const Center(child: CircularProgressIndicator())
             : Column(
-          children: [
-            // 🔹 Contenu scrollable
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 24,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // ===== Header / contexte =====
-                    Text(
-                      'Questionnaire alimentaire',
-                      style: textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: colorScheme.onBackground,
+                children: [
+                  // 🔹 Contenu scrollable
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 24,
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      "Parle-nous de tes contraintes et habitudes alimentaires.\n"
-                          "On adaptera ensuite les menus et les suggestions.",
-                      style: textTheme.bodyMedium?.copyWith(
-                        color: theme.hintColor,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Optionnel : indication d’étape
-                    Text(
-                      'Étape 2 sur 2',
-                      style: textTheme.bodySmall?.copyWith(
-                        color: theme.hintColor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    // ===== Bloc allergies =====
-                    _SectionCard(
-                      title: 'Allergies et intolérances',
-                      subtitle:
-                      'Sélectionne les allergènes que tu dois éviter.',
-                      child: AllergensSection(
-                        allergens: viewModel.allergens,
-                        onToggle: viewModel.toggleAllergen,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    // ===== Bloc régime =====
-                    _SectionCard(
-                      title: 'Type de régime',
-                      subtitle:
-                      'On adapte les recettes en fonction de ton profil.',
-                      child: DietSelector(
-                        selected: viewModel.dietType,
-                        onSelected: viewModel.setDietType,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    // ===== Bloc fréquence viande/poisson =====
-                    _SectionCard(
-                      title: 'Fréquence des repas',
-                      subtitle:
-                      'Indique en moyenne combien de repas par semaine contiennent :',
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          MealsSliderSection(
-                            label: 'Repas avec viande / semaine',
-                            value: viewModel.meatMealsPerWeek,
-                            onChanged: viewModel.setMeatMeals,
+                          // ===== Header / contexte =====
+                          Text(
+                            'Questionnaire alimentaire',
+                            style: textTheme.headlineMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: colorScheme.onBackground,
+                            ),
                           ),
-                          const SizedBox(height: 16),
-                          MealsSliderSection(
-                            label: 'Repas avec poisson / semaine',
-                            value: viewModel.fishMealsPerWeek,
-                            onChanged: viewModel.setFishMeals,
+                          const SizedBox(height: 8),
+                          Text(
+                            "Parle-nous de tes contraintes et habitudes alimentaires.\n"
+                            "On adaptera ensuite les menus et les suggestions.",
+                            style: textTheme.bodyMedium?.copyWith(
+                              color: theme.hintColor,
+                            ),
                           ),
+                          const SizedBox(height: 24),
+
+                          // Optionnel : indication d’étape
+                          Text(
+                            'Étape 2 sur 2',
+                            style: textTheme.bodySmall?.copyWith(
+                              color: theme.hintColor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+
+                          // ===== Bloc allergies =====
+                          _SectionCard(
+                            title: 'Allergies et intolérances',
+                            subtitle:
+                                'Sélectionne les allergènes que tu dois éviter.',
+                            child: AllergensSection(
+                              allergens: viewModel.allergens,
+                              onToggle: viewModel.toggleAllergen,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+
+                          // ===== Bloc régime =====
+                          _SectionCard(
+                            title: 'Type de régime',
+                            subtitle:
+                                'On adapte les recettes en fonction de ton profil.',
+                            child: DietSelector(
+                              selected: viewModel.dietType,
+                              onSelected: viewModel.setDietType,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+
+                          // ===== Bloc fréquence viande/poisson =====
+                          _SectionCard(
+                            title: 'Fréquence des repas',
+                            subtitle:
+                                'Indique en moyenne combien de repas par semaine contiennent :',
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                MealsSliderSection(
+                                  label: 'Repas avec viande / semaine',
+                                  value: viewModel.meatMealsPerWeek,
+                                  onChanged: viewModel.setMeatMeals,
+                                ),
+                                const SizedBox(height: 16),
+                                MealsSliderSection(
+                                  label: 'Repas avec poisson / semaine',
+                                  value: viewModel.fishMealsPerWeek,
+                                  onChanged: viewModel.setFishMeals,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 24),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 24),
-                  ],
-                ),
-              ),
-            ),
+                  ),
 
-            // 🔹 Bouton de validation fixé en bas
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-              child: SubmitButton(
-                isBusy: viewModel.isBusy,
-                onPressed: viewModel.submit,
+                  // 🔹 Bouton de validation fixé en bas
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                    child: SubmitButton(
+                      isBusy: viewModel.isBusy,
+                      onPressed: viewModel.submit,
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }
 
   @override
   QuizRegisterViewModel viewModelBuilder(
-      BuildContext context,
-      ) =>
+    BuildContext context,
+  ) =>
       QuizRegisterViewModel();
 
   @override

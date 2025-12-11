@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
@@ -53,6 +54,14 @@ class ProfileDetailsView extends StackedView<ProfileDetailsViewModel> {
                   ),
                 ),
                 const SizedBox(height: 12),
+                ListTile(
+                  title: const Text("Adresse"),
+                  subtitle: Text(user.adresse),
+                ),
+                ListTile(
+                  title: Text("Date de naissance"),
+                  subtitle: Text(DateFormat('dd/MM/yyyy').format(user.dateDeNaissance)),
+                ),
                 Text(
                   'Adresse',
                   style: theme.textTheme.labelMedium?.copyWith(
@@ -75,6 +84,7 @@ class ProfileDetailsView extends StackedView<ProfileDetailsViewModel> {
                   style: theme.textTheme.bodyMedium,
                 ),
                 const SizedBox(height: 16),
+                if (kDebugMode)...[
                 Text(
                   'Identifiant',
                   style: theme.textTheme.labelMedium?.copyWith(
@@ -87,6 +97,7 @@ class ProfileDetailsView extends StackedView<ProfileDetailsViewModel> {
                     color: Colors.grey[800],
                   ),
                 ),
+                ]
               ],
             ),
           ),

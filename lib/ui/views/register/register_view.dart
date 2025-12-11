@@ -10,10 +10,10 @@ class RegisterView extends StackedView<RegisterViewModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      RegisterViewModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    RegisterViewModel viewModel,
+    Widget? child,
+  ) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     final colorScheme = theme.colorScheme;

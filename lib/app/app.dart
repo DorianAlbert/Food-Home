@@ -17,6 +17,8 @@ import 'package:food_home_app/ui/views/quiz_register/quiz_register_view.dart';
 import '../services/quiz_service.dart';
 import 'package:food_home_app/ui/views/profile_details/profile_details_view.dart';
 import 'package:food_home_app/ui/views/shopping_list/shopping_list_view.dart';
+
+import '../services/shopping_list_service.dart';
 // @stacked-import
 
 @StackedApp(routes: [
@@ -39,5 +41,6 @@ import 'package:food_home_app/ui/views/shopping_list/shopping_list_view.dart';
   LazySingleton(classType: NavbarService),
   LazySingleton(classType: UserService),
   LazySingleton(classType: QuizService),
+  LazySingleton(classType: ShoppingListService),
 ])
 class App {}

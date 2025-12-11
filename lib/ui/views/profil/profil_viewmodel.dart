@@ -142,10 +142,8 @@ class ProfilViewModel extends BaseViewModel {
   Future<void> _persistQuiz() async {
     if (FirebaseAuth.instance.currentUser == null) return;
 
-    final selectedAllergens = _allergens.entries
-        .where((e) => e.value)
-        .map((e) => e.key)
-        .toList();
+    final selectedAllergens =
+        _allergens.entries.where((e) => e.value).map((e) => e.key).toList();
 
     final quiz = QuizModel(
       allergens: selectedAllergens,

@@ -16,12 +16,13 @@ class DietSelector extends StackedView<DietSelectorModel> {
 
   @override
   Widget builder(
-    BuildContext context,
-    DietSelectorModel viewModel,
-    Widget? child,
-  ) {
+      BuildContext context,
+      DietSelectorModel viewModel,
+      Widget? child,
+      ) {
     final theme = Theme.of(context);
-    const primary = Color(0xFF26B4E6);
+    final textTheme = theme.textTheme;
+    final colorScheme = theme.colorScheme;
 
     String labelFromDiet(DietType type) {
       switch (type) {
@@ -38,8 +39,14 @@ class DietSelector extends StackedView<DietSelectorModel> {
 
     Widget buildChip(DietType type) {
       final isSelected = type == selected;
-      final bgColor = isSelected ? primary : const Color(0xFFF2F4F7);
-      final textColor = isSelected ? Colors.white : const Color(0xFF1F2933);
+
+      final bgColor = isSelected
+          ? colorScheme.primary
+          : colorScheme.surface.withOpacity(0.9);
+
+      final textColor = isSelected
+          ? colorScheme.onPrimary
+          : colorScheme.onSurface.withOpacity(0.9);
 
       return GestureDetector(
         onTap: () => onSelected(type),
@@ -48,10 +55,15 @@ class DietSelector extends StackedView<DietSelectorModel> {
           decoration: BoxDecoration(
             color: bgColor,
             borderRadius: BorderRadius.circular(24),
+            border: Border.all(
+              color: isSelected
+                  ? colorScheme.primary.withOpacity(0.65)
+                  : colorScheme.outline.withOpacity(0.4),
+            ),
           ),
           child: Text(
             labelFromDiet(type),
-            style: theme.textTheme.bodyMedium?.copyWith(
+            style: textTheme.bodyMedium?.copyWith(
               color: textColor,
               fontWeight: FontWeight.w500,
             ),
@@ -65,9 +77,9 @@ class DietSelector extends StackedView<DietSelectorModel> {
       children: [
         Text(
           'Régime alimentaire',
-          style: theme.textTheme.titleMedium?.copyWith(
+          style: textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w600,
-            color: Colors.black87,
+            color: colorScheme.onBackground,
           ),
         ),
         const SizedBox(height: 12),
@@ -82,7 +94,7 @@ class DietSelector extends StackedView<DietSelectorModel> {
 
   @override
   DietSelectorModel viewModelBuilder(
-    BuildContext context,
-  ) =>
+      BuildContext context,
+      ) =>
       DietSelectorModel();
 }

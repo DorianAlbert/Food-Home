@@ -14,15 +14,12 @@ class StartupViewModel extends BaseViewModel {
     await Future.delayed(const Duration(seconds: 3));
     //_navigationService.replaceWithQuizRegisterView();
 
-    final firebaseAuth = _authService.firebaseAuth;
-    final firebaseUser = firebaseAuth.currentUser;
-    await firebaseAuth.authStateChanges().first;
     _authService.firebaseAuth.authStateChanges().listen((user) async {
-      if (firebaseUser == null) {
+      if (user == null) {
         _navigationService.replaceWithLoginView();
         return;
       }
-      final userInDb = await _userService.getUser(firebaseUser.uid);
+      final userInDb = await _userService.getUser(user.uid);
 
       if (userInDb == null) {
         _navigationService.replaceWithRegisterFormView();

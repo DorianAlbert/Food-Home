@@ -17,11 +17,17 @@ class MealsSliderSection extends StackedView<MealsSliderSectionModel> {
 
   @override
   Widget builder(
-    BuildContext context,
-    MealsSliderSectionModel viewModel,
-    Widget? child,
-  ) {
-    const primary = Color(0xFF26B4E6);
+      BuildContext context,
+      MealsSliderSectionModel viewModel,
+      Widget? child,
+      ) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final colorScheme = theme.colorScheme;
+
+    final primary = colorScheme.primary;
+    final inactiveColor = colorScheme.outline.withOpacity(0.25);
+    final labelColor = colorScheme.onBackground;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,13 +38,13 @@ class MealsSliderSection extends StackedView<MealsSliderSectionModel> {
           children: [
             Text(
               label,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.black87,
-                  ),
+              style: textTheme.bodyMedium?.copyWith(
+                color: labelColor,
+              ),
             ),
             Text(
               value.toString(),
-              style: const TextStyle(
+              style: textTheme.bodyMedium?.copyWith(
                 color: primary,
                 fontWeight: FontWeight.w600,
               ),
@@ -46,11 +52,11 @@ class MealsSliderSection extends StackedView<MealsSliderSectionModel> {
           ],
         ),
 
-        // Slider stylé
+        // Slider stylé selon le thème
         SliderTheme(
           data: SliderTheme.of(context).copyWith(
             activeTrackColor: primary,
-            inactiveTrackColor: Colors.grey.shade300,
+            inactiveTrackColor: inactiveColor,
             thumbColor: primary,
             overlayColor: primary.withOpacity(0.16),
           ),
@@ -68,7 +74,7 @@ class MealsSliderSection extends StackedView<MealsSliderSectionModel> {
 
   @override
   MealsSliderSectionModel viewModelBuilder(
-    BuildContext context,
-  ) =>
+      BuildContext context,
+      ) =>
       MealsSliderSectionModel();
 }

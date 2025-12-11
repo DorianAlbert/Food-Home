@@ -9,34 +9,45 @@ class RegisterFormView extends StackedView<RegisterFormViewModel> {
 
   @override
   Widget builder(
-    BuildContext context,
-    RegisterFormViewModel viewModel,
-    Widget? child,
-  ) {
+      BuildContext context,
+      RegisterFormViewModel viewModel,
+      Widget? child,
+      ) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     return Scaffold(
+      backgroundColor: colorScheme.background,
+
+      // ===== APP BAR FOOD HOME =====
       appBar: AppBar(
-        title:
-            const Text('Créer un Compte'), // Titre adapté pour l'enregistrement
+        elevation: 0,
+        backgroundColor: colorScheme.background,
+        title: Text(
+          'Informations du compte',
+          style: textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w600,
+            color: colorScheme.onBackground,
+          ),
+        ),
+        centerTitle: true,
       ),
-      backgroundColor: Theme.of(context).colorScheme.background,
-      body: viewModel
-              .isBusy // Afficher un indicateur de chargement si le ViewModel est occupé
+
+      // ===== BODY =====
+      body: viewModel.isBusy
           ? const Center(child: CircularProgressIndicator())
-          : Container(
-              padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-              child: UserFormWidget(
-                initialUser:
-                    null, // Pas d'utilisateur initial pour un formulaire d'enregistrement
-                onSave: viewModel
-                    .handleRegisterUser, // Le callback pour la sauvegarde
-              ),
-            ),
+          : SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+        child: UserFormWidget(
+          initialUser: null,
+          onSave: viewModel.handleRegisterUser,
+        ),
+      ),
     );
   }
 
   @override
-  RegisterFormViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
+  RegisterFormViewModel viewModelBuilder(BuildContext context) =>
       RegisterFormViewModel();
 }

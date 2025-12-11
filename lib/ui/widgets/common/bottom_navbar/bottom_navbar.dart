@@ -6,23 +6,43 @@ import 'bottom_navbar_model.dart';
 class BottomNavbar extends StackedView<BottomNavbarModel> {
   const BottomNavbar({super.key});
 
-  Color _itemColor(bool isActive) {
-    return isActive ? const Color(0xFF10B981) : Colors.grey;
+  Color _itemColor(BuildContext context, bool isActive) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    if (isActive) {
+      return colorScheme.primary; // bleu Food Home
+    }
+
+    // Couleur de texte secondaire pour les items inactifs
+    return colorScheme.onSurface.withOpacity(0.45);
   }
 
   @override
   Widget builder(
-    BuildContext context,
-    BottomNavbarModel viewModel,
-    Widget? child,
-  ) {
+      BuildContext context,
+      BottomNavbarModel viewModel,
+      Widget? child,
+      ) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colorScheme.surface,
         border: Border(
-          top: BorderSide(color: Colors.grey.shade200),
+          top: BorderSide(
+            color: colorScheme.outline.withOpacity(0.12),
+          ),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 12,
+            offset: const Offset(0, -2),
+          ),
+        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -30,8 +50,8 @@ class BottomNavbar extends StackedView<BottomNavbarModel> {
           _NavItem(
             label: 'Accueil',
             icon: Icons.home,
-            color: _itemColor(viewModel.currentIndex == 0),
-            onTap: () => viewModel.setAcceuil(),
+            color: _itemColor(context, viewModel.currentIndex == 0),
+            onTap: viewModel.setAcceuil,
           ),
           GestureDetector(
             onTap: viewModel.onPlusTap,
@@ -39,20 +59,20 @@ class BottomNavbar extends StackedView<BottomNavbarModel> {
               width: 56,
               height: 56,
               margin: const EdgeInsets.only(bottom: 24),
-              decoration: const BoxDecoration(
-                color: Color(0xFF10B981),
+              decoration: BoxDecoration(
+                color: colorScheme.primary,
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 8,
-                    offset: Offset(0, 4),
-                  )
+                    color: colorScheme.primary.withOpacity(0.25),
+                    blurRadius: 14,
+                    offset: const Offset(0, 6),
+                  ),
                 ],
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.add,
-                color: Colors.white,
+                color: colorScheme.onPrimary,
                 size: 28,
               ),
             ),
@@ -60,8 +80,8 @@ class BottomNavbar extends StackedView<BottomNavbarModel> {
           _NavItem(
             label: 'Profil',
             icon: Icons.person,
-            color: _itemColor(viewModel.currentIndex == 1),
-            onTap: () => viewModel.setProfil(),
+            color: _itemColor(context, viewModel.currentIndex == 1),
+            onTap: viewModel.setProfil,
           ),
         ],
       ),
@@ -88,6 +108,8 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.translucent,
@@ -98,7 +120,7 @@ class _NavItem extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             label,
-            style: TextStyle(
+            style: textTheme.bodySmall?.copyWith(
               fontSize: 12,
               fontWeight: FontWeight.w500,
               color: color,

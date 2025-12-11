@@ -1,34 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:food_home_app/ui/common/app_theme.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import 'package:food_home_app/app/app.locator.dart';
-import 'package:food_home_app/app/app.router.dart';
-import 'package:food_home_app/app/app.dialogs.dart';
-import 'package:food_home_app/app/app.bottomsheets.dart';
+import 'app/app.locator.dart';
+import 'app/app.router.dart';
 import 'firebase_options.dart';
+// ⬇️ importe ton fichier de thème
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  setupLocator();
-  setupDialogUi();
-  setupBottomSheetUi();
-  runApp(const MainApp());
+
+  await setupLocator();
+
+  runApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: Routes.startupView,
-      onGenerateRoute: StackedRouter().onGenerateRoute,
+      title: 'Food Home',
+      debugShowCheckedModeBanner: false,
       navigatorKey: StackedService.navigatorKey,
-      navigatorObservers: [StackedService.routeObserver],
+      onGenerateRoute: StackedRouter().onGenerateRoute,
+      initialRoute: Routes.startupView,
+
+      theme: buildLightTheme(),
+      darkTheme: buildDarkTheme(),
+      themeMode: ThemeMode.light, // ou ThemeMode.system si tu veux gérer les deux
     );
   }
 }

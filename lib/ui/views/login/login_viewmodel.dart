@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 //import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 //import 'package:google_sign_in/google_sign_in.dart';
 import 'package:stacked/stacked.dart';
@@ -63,49 +64,46 @@ class LoginViewModel extends BaseViewModel {
 
   /// Handles Google Sign-In.
   Future<void> signInWithGoogle() async {
-    /**
     setBusy(true);
     try {
-      // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await GoogleSignIn()
-          .signIn(); // Use GoogleSignIn().signIn() directly
+      // Déclenche le flux d'authentification Google
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
       if (googleUser == null) {
-        // User cancelled the sign-in
+        // L'utilisateur a annulé la connexion
         _snackbarService.showSnackbar(
-            message: 'Google Sign-In cancelled.', title: 'Info');
+            message: 'Google Sign-In annulée.', title: 'Info');
         return;
       }
 
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication googleAuth = await googleUser
-          .authentication;
+      // Obtient les détails d'authentification de la requête
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
-      // Create a new credential
+      // Crée un nouveau credential Firebase à partir des jetons Google
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      // Sign in to Firebase with the credential
+      // Se connecte à Firebase avec le credential
       await FirebaseAuth.instance.signInWithCredential(credential);
 
-      // Navigate to the home screen on successful login
+      // Navigue vers l'écran d'accueil après une connexion réussie
       _navigationService.replaceWithHomeView();
     } on FirebaseAuthException catch (e) {
       _snackbarService.showSnackbar(
-        message: e.message ?? 'Google Sign-In failed.',
-        title: 'Authentication Error',
+        message: e.message ?? 'Échec de la connexion Google.',
+        title: 'Erreur d\'authentification',
       );
     } catch (e) {
       _snackbarService.showSnackbar(
         message: e.toString(),
-        title: 'An unexpected error occurred during Google Sign-In',
+        title: 'Une erreur inattendue est survenue lors de la connexion Google',
       );
     } finally {
       setBusy(false);
     }
-        **/
   }
 
   /// Handles Facebook Sign-In.

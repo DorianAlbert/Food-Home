@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../models/user_model.dart';
-
+import '../../common/app_colors.dart';
 import '../../widgets/common/allergens_section/allergens_section.dart';
 import '../../widgets/common/diet_selector/diet_selector.dart' show DietSelector;
 import '../../widgets/common/meals_slider_section/meals_slider_section.dart';
@@ -24,6 +24,7 @@ class ProfilView extends StackedView<ProfilViewModel> {
       Widget? child,
       ) {
     final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
 
     final isLoading = viewModel.isBusy && viewModel.userProfile == null;
 
@@ -57,14 +58,14 @@ class ProfilView extends StackedView<ProfilViewModel> {
                         width: 56,
                         height: 56,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF26B4E6),
+                          color: theme.colorScheme.primary,
                           borderRadius: BorderRadius.circular(18),
                         ),
                         alignment: Alignment.center,
                         child: Text(
                           viewModel.initialLetter,
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: textTheme.titleLarge?.copyWith(
+                            color: theme.colorScheme.onPrimary,
                             fontSize: 24,
                             fontWeight: FontWeight.w600,
                           ),
@@ -78,15 +79,16 @@ class ProfilView extends StackedView<ProfilViewModel> {
                           children: [
                             Text(
                               viewModel.displayName,
-                              style: theme.textTheme.titleMedium?.copyWith(
+                              style:
+                              textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                             const SizedBox(height: 4),
                             Text(
                               viewModel.displaySubtitle,
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: Colors.grey[600],
+                              style: textTheme.bodySmall?.copyWith(
+                                color: AppColors.mutedForeground,
                               ),
                             ),
                           ],
@@ -105,16 +107,17 @@ class ProfilView extends StackedView<ProfilViewModel> {
                   onPressed: viewModel.onViewProfilePressed,
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
-                    side: BorderSide(color: Colors.grey.shade200),
+                    side: const BorderSide(color: AppColors.border),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    backgroundColor: const Color(0xFFF7F8FA),
+                    backgroundColor: AppColors.sidebar,
                   ),
-                  child: const Text(
+                  child: Text(
                     'Voir mon profil',
-                    style: TextStyle(
+                    style: textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
+                      color: theme.colorScheme.onSurface,
                     ),
                   ),
                 ),
@@ -127,7 +130,7 @@ class ProfilView extends StackedView<ProfilViewModel> {
               // -----------------------------
               Text(
                 'Préférences alimentaires',
-                style: theme.textTheme.titleMedium?.copyWith(
+                style: textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -150,7 +153,7 @@ class ProfilView extends StackedView<ProfilViewModel> {
                       ),
 
                       const SizedBox(height: 16),
-                      Divider(color: Colors.grey.shade200),
+                      const Divider(color: AppColors.border),
                       const SizedBox(height: 16),
 
                       // Régime alimentaire
@@ -160,7 +163,7 @@ class ProfilView extends StackedView<ProfilViewModel> {
                       ),
 
                       const SizedBox(height: 16),
-                      Divider(color: Colors.grey.shade200),
+                      const Divider(color: AppColors.border),
                       const SizedBox(height: 16),
 
                       // 🔹 Repas avec viande
@@ -198,7 +201,7 @@ class ProfilView extends StackedView<ProfilViewModel> {
               // -----------------------------
               Text(
                 'Notifications',
-                style: theme.textTheme.titleMedium?.copyWith(
+                style: textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -220,12 +223,12 @@ class ProfilView extends StackedView<ProfilViewModel> {
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFFF4E5),
+                          color: AppColors.pastelYellow,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: const Icon(
                           Icons.notifications_none,
-                          color: Color(0xFFF4A623),
+                          color: AppColors.accentYellow,
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -233,18 +236,18 @@ class ProfilView extends StackedView<ProfilViewModel> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               'Alertes péremption',
-                              style: TextStyle(
+                              style: textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.w600,
+                                color: theme.colorScheme.onSurface,
                               ),
                             ),
                             const SizedBox(height: 4),
                             Text(
                               'Recevoir des notifications',
-                              style:
-                              theme.textTheme.bodySmall?.copyWith(
-                                color: Colors.grey[600],
+                              style: textTheme.bodySmall?.copyWith(
+                                color: AppColors.mutedForeground,
                               ),
                             ),
                           ],
@@ -253,7 +256,7 @@ class ProfilView extends StackedView<ProfilViewModel> {
                       Switch(
                         value: viewModel.expiryAlertsEnabled,
                         onChanged: viewModel.toggleExpiryAlerts,
-                        activeColor: const Color(0xFF26B4E6),
+                        activeColor: theme.colorScheme.primary,
                       ),
                     ],
                   ),
@@ -267,7 +270,7 @@ class ProfilView extends StackedView<ProfilViewModel> {
               // -----------------------------
               Text(
                 'Compte',
-                style: theme.textTheme.titleMedium?.copyWith(
+                style: textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -277,17 +280,17 @@ class ProfilView extends StackedView<ProfilViewModel> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                color: const Color(0xFFFFF2F2),
+                color: AppColors.destructive.withOpacity(0.06),
                 child: ListTile(
                   onTap: viewModel.logout,
                   leading: const Icon(
                     Icons.logout,
-                    color: Colors.red,
+                    color: AppColors.destructive,
                   ),
                   title: const Text(
                     'Se déconnecter',
                     style: TextStyle(
-                      color: Colors.red,
+                      color: AppColors.destructive,
                       fontWeight: FontWeight.w600,
                     ),
                   ),

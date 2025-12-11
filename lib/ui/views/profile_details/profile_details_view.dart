@@ -9,10 +9,10 @@ class ProfileDetailsView extends StackedView<ProfileDetailsViewModel> {
 
   @override
   Widget builder(
-      BuildContext context,
-      ProfileDetailsViewModel viewModel,
-      Widget? child,
-      ) {
+    BuildContext context,
+    ProfileDetailsViewModel viewModel,
+    Widget? child,
+  ) {
     final theme = Theme.of(context);
 
     // Chargement en cours ou user pas encore disponible

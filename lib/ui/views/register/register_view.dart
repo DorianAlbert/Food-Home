@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+
 import '../../widgets/common/auth_credentials_fields/auth_credentials_fields.dart';
 import '../../widgets/common/auth_primary_button/auth_primary_button.dart';
 import 'register_viewmodel.dart';
@@ -9,22 +10,28 @@ class RegisterView extends StackedView<RegisterViewModel> {
 
   @override
   Widget builder(
-    BuildContext context,
-    RegisterViewModel viewModel,
-    Widget? child,
-  ) {
+      BuildContext context,
+      RegisterViewModel viewModel,
+      Widget? child,
+      ) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
+      backgroundColor: colorScheme.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start, // un peu plus “form”
             children: [
-              const Text(
+              Text(
                 'Créer un compte',
-                style: TextStyle(
-                  fontSize: 26,
+                style: textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.w700,
+                  color: colorScheme.onBackground,
                 ),
               ),
               const SizedBox(height: 32),

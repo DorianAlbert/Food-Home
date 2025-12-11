@@ -15,11 +15,13 @@ class AllergensSection extends StackedView<AllergensSectionModel> {
 
   @override
   Widget builder(
-    BuildContext context,
-    AllergensSectionModel viewModel,
-    Widget? child,
-  ) {
+      BuildContext context,
+      AllergensSectionModel viewModel,
+      Widget? child,
+      ) {
     final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final colorScheme = theme.colorScheme;
 
     String labelFromKey(String key) {
       switch (key) {
@@ -28,9 +30,9 @@ class AllergensSection extends StackedView<AllergensSectionModel> {
         case 'lactose':
           return 'Lactose';
         case 'nuts':
-          return 'Nuts';
+          return 'Fruits à coque';
         case 'eggs':
-          return 'Eggs';
+          return 'Œufs';
         default:
           return key;
       }
@@ -41,32 +43,51 @@ class AllergensSection extends StackedView<AllergensSectionModel> {
       children: [
         Text(
           'Allergènes',
-          style: theme.textTheme.titleMedium?.copyWith(
+          style: textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w600,
-            color: Colors.black87,
+            color: colorScheme.onBackground,
           ),
         ),
         const SizedBox(height: 12),
         ...allergens.entries.map(
-          (entry) => Theme(
-            data: theme.copyWith(
-              checkboxTheme: CheckboxThemeData(
-                shape: const CircleBorder(),
-                side: BorderSide(
-                  color: Colors.grey.shade400,
-                  width: 1.5,
+              (entry) => Padding(
+            padding: const EdgeInsets.only(bottom: 4.0),
+            child: Theme(
+              // On réutilise le thème global, mais on specialise le Checkbox
+              data: theme.copyWith(
+                checkboxTheme: theme.checkboxTheme.copyWith(
+                  shape: const CircleBorder(),
+                  side: MaterialStateBorderSide.resolveWith((states) {
+                    if (states.contains(MaterialState.selected)) {
+                      return BorderSide(
+                        color: colorScheme.primary,
+                        width: 1.5,
+                      );
+                    }
+                    return BorderSide(
+                      color: colorScheme.outline.withOpacity(0.6),
+                      width: 1.5,
+                    );
+                  }),
+                  fillColor: MaterialStateProperty.resolveWith((states) {
+                    if (states.contains(MaterialState.selected)) {
+                      return colorScheme.primary;
+                    }
+                    return Colors.transparent;
+                  }),
+                  checkColor: MaterialStateProperty.all(colorScheme.onPrimary),
                 ),
               ),
-            ),
-            child: CheckboxListTile(
-              value: entry.value,
-              onChanged: (_) => onToggle(entry.key),
-              controlAffinity: ListTileControlAffinity.leading,
-              contentPadding: EdgeInsets.zero,
-              title: Text(
-                labelFromKey(entry.key),
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: Colors.black87,
+              child: CheckboxListTile(
+                value: entry.value,
+                onChanged: (_) => onToggle(entry.key),
+                controlAffinity: ListTileControlAffinity.leading,
+                contentPadding: EdgeInsets.zero,
+                title: Text(
+                  labelFromKey(entry.key),
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onBackground,
+                  ),
                 ),
               ),
             ),
@@ -78,7 +99,7 @@ class AllergensSection extends StackedView<AllergensSectionModel> {
 
   @override
   AllergensSectionModel viewModelBuilder(
-    BuildContext context,
-  ) =>
+      BuildContext context,
+      ) =>
       AllergensSectionModel();
 }

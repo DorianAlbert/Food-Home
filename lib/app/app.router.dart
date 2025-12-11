@@ -5,9 +5,9 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i11;
+import 'package:flutter/material.dart' as _i12;
 import 'package:flutter/material.dart';
-import 'package:food_home_app/models/user_model.dart' as _i12;
+import 'package:food_home_app/models/user_model.dart' as _i13;
 import 'package:food_home_app/ui/views/acceuil/acceuil_view.dart' as _i7;
 import 'package:food_home_app/ui/views/home/home_view.dart' as _i2;
 import 'package:food_home_app/ui/views/login/login_view.dart' as _i4;
@@ -19,9 +19,11 @@ import 'package:food_home_app/ui/views/quiz_register/quiz_register_view.dart'
 import 'package:food_home_app/ui/views/register/register_view.dart' as _i5;
 import 'package:food_home_app/ui/views/register_form/register_form_view.dart'
     as _i8;
+import 'package:food_home_app/ui/views/shopping_list/shopping_list_view.dart'
+    as _i11;
 import 'package:food_home_app/ui/views/startup/startup_view.dart' as _i3;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i13;
+import 'package:stacked_services/stacked_services.dart' as _i14;
 
 class Routes {
   static const homeView = '/home-view';
@@ -42,6 +44,8 @@ class Routes {
 
   static const profileDetailsView = '/profile-details-view';
 
+  static const shoppingListView = '/shopping-list-view';
+
   static const all = <String>{
     homeView,
     startupView,
@@ -52,6 +56,7 @@ class Routes {
     registerFormView,
     quizRegisterView,
     profileDetailsView,
+    shoppingListView,
   };
 }
 
@@ -93,29 +98,33 @@ class StackedRouter extends _i1.RouterBase {
       Routes.profileDetailsView,
       page: _i10.ProfileDetailsView,
     ),
+    _i1.RouteDef(
+      Routes.shoppingListView,
+      page: _i11.ShoppingListView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.HomeView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.HomeView(),
         settings: data,
       );
     },
     _i3.StartupView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.StartupView(),
         settings: data,
       );
     },
     _i4.LoginView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.LoginView(),
         settings: data,
       );
     },
     _i5.RegisterView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.RegisterView(),
         settings: data,
       );
@@ -124,33 +133,39 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<ProfilViewArguments>(
         orElse: () => const ProfilViewArguments(),
       );
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i6.ProfilView(key: args.key, userProfile: args.userProfile),
         settings: data,
       );
     },
     _i7.AcceuilView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i7.AcceuilView(),
         settings: data,
       );
     },
     _i8.RegisterFormView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i8.RegisterFormView(),
         settings: data,
       );
     },
     _i9.QuizRegisterView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i9.QuizRegisterView(),
         settings: data,
       );
     },
     _i10.ProfileDetailsView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i12.MaterialPageRoute<dynamic>(
         builder: (context) => const _i10.ProfileDetailsView(),
+        settings: data,
+      );
+    },
+    _i11.ShoppingListView: (data) {
+      return _i12.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i11.ShoppingListView(),
         settings: data,
       );
     },
@@ -169,9 +184,9 @@ class ProfilViewArguments {
     this.userProfile,
   });
 
-  final _i11.Key? key;
+  final _i12.Key? key;
 
-  final _i12.User? userProfile;
+  final _i13.User? userProfile;
 
   @override
   String toString() {
@@ -190,7 +205,7 @@ class ProfilViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i13.NavigationService {
+extension NavigatorStateExtension on _i14.NavigationService {
   Future<dynamic> navigateToHomeView([
     int? routerId,
     bool preventDuplicates = true,
@@ -248,8 +263,8 @@ extension NavigatorStateExtension on _i13.NavigationService {
   }
 
   Future<dynamic> navigateToProfilView({
-    _i11.Key? key,
-    _i12.User? userProfile,
+    _i12.Key? key,
+    _i13.User? userProfile,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -320,6 +335,20 @@ extension NavigatorStateExtension on _i13.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> navigateToShoppingListView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.shoppingListView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
   Future<dynamic> replaceWithHomeView([
     int? routerId,
     bool preventDuplicates = true,
@@ -377,8 +406,8 @@ extension NavigatorStateExtension on _i13.NavigationService {
   }
 
   Future<dynamic> replaceWithProfilView({
-    _i11.Key? key,
-    _i12.User? userProfile,
+    _i12.Key? key,
+    _i13.User? userProfile,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -443,6 +472,20 @@ extension NavigatorStateExtension on _i13.NavigationService {
         transition,
   ]) async {
     return replaceWith<dynamic>(Routes.profileDetailsView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithShoppingListView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.shoppingListView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

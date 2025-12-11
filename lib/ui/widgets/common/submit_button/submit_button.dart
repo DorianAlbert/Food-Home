@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../common/app_theme_extras.dart';
 import 'submit_button_model.dart';
 
 class SubmitButton extends StackedView<SubmitButtonModel> {
@@ -15,38 +16,55 @@ class SubmitButton extends StackedView<SubmitButtonModel> {
 
   @override
   Widget builder(
-    BuildContext context,
-    SubmitButtonModel viewModel,
-    Widget? child,
-  ) {
-    const primary = Color(0xFF26B4E6);
+      BuildContext context,
+      SubmitButtonModel viewModel,
+      Widget? child,
+      ) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+    final extras = theme.extension<AppThemeExtras>();
+
+    final radius = extras?.radiusLg ?? 18.0;
 
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
         onPressed: isBusy ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: primary,
-          foregroundColor: Colors.white,
+          backgroundColor: colorScheme.primary,
+          foregroundColor: colorScheme.onPrimary,
           padding: const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(radius),
+          ),
+          textStyle: textTheme.labelLarge?.copyWith(
+            fontWeight: FontWeight.w600,
           ),
         ),
-        child: Text(
+        child: isBusy
+            ? SizedBox(
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            valueColor: AlwaysStoppedAnimation<Color>(
+              colorScheme.onPrimary,
+            ),
+          ),
+        )
+            : Text(
           'Valider mon profil',
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-              ),
+          style: textTheme.labelLarge?.copyWith(
+            color: colorScheme.onPrimary,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
     );
   }
 
   @override
-  SubmitButtonModel viewModelBuilder(
-    BuildContext context,
-  ) =>
+  SubmitButtonModel viewModelBuilder(BuildContext context) =>
       SubmitButtonModel();
 }
